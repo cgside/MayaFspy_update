@@ -1,0 +1,25 @@
+    # creating an image plane for the camera
+    image_transform, image_shape = pm.imagePlane(camera=camera_transform)
+    pm.setAttr(image_shape.imageName, image_path, type='string')
+
+###INSERT AFTER THE ABOVE CODE IN "core.py"
+
+
+###THIS IS THE NEW CODE
+    hfa = pm.camera(camera_shape, q=True, hfa=True)
+    mm = hfa*25.4
+    fl = data['relativeFocalLength']*mm/2
+    pm.camera(camera_shape, e=True, fl=fl)
+
+
+    #set render resolution
+    renderWidth = data['imageWidth']
+    renderHeight = data['imageHeight']
+
+    pm.setAttr('defaultResolution.width', renderWidth)
+    pm.setAttr('defaultResolution.height', renderHeight)
+
+    aspRatio = float(pm.getAttr('defaultResolution.width'))/float(pm.getAttr('defaultResolution.height'))
+    pm.setAttr('defaultResolution.deviceAspectRatio', aspRatio)    
+
+###
